@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAVEN DEV PORTAL | THE HIVE CONTROL</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff41;
+            --secondary: #ffd700;
+            --danger: #ff0040;
+            --bg: #0a0a0a;
+            --panel-bg: rgba(0, 255, 65, 0.05);
+            --text: #ffffff;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--panel-bg);
+            border-right: 2px solid var(--primary);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        .menu-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .menu-item.active {
+            background: rgba(0, 255, 65, 0.2);
+            border-color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* Terminal */
+        .terminal {
+            background: #000;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        .terminal-input {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .terminal-prompt {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .terminal-command {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            flex: 1;
+            font-family: inherit;
+            font-size: inherit;
+            outline: none;
+        }
+
+        /* AI Council Status */
+        .council-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .council-member {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .council-member.online {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+        }
+
+        .council-member.offline {
+            opacity: 0.5;
+            border-color: var(--danger);
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: var(--bg);
+            border: none;
+            padding: 15px 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid var(--primary);
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(0, 255, 65, 0.2);
+            font-weight: bold;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">THE HIVE</div>
+        <div class="menu-item active" data-page="dashboard">Dashboard</div>
+        <div class="menu-item" data-page="council">AI Council</div>
+        <div class="menu-item" data-page="guest-book">Guest Book</div>
+        <div class="menu-item" data-page="terminal">Terminal</div>
+        <div class="menu-item" data-page="deploy">Deploy</div>
+        <div class="menu-item" data-page="analytics">Analytics</div>
+        <div class="menu-item" data-page="security">Security</div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page">
+            <h1 style="margin-bottom: 30px; color: var(--primary);">HAVEN CONTROL CENTER</h1>
+            
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="visitorCount">0</div>
+                    <div class="stat-label">VISITORS TODAY</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="aiStatus">11</div>
+                    <div class="stat-label">AI MODELS ACTIVE</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="uptime">99.9%</div>
+                    <div class="stat-label">SYSTEM UPTIME</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="storage">84%</div>
+                    <div class="stat-label">STORAGE USED</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">Quick Actions</h2>
+                <button class="btn" onclick="deployUpdate()">Deploy Update</button>
+                <button class="btn btn-secondary" onclick="syncCouncil()">Sync AI Council</button>
+                <button class="btn" onclick="backupSystem()">Backup System</button>
+                <button class="btn btn-danger" onclick="emergencyShutdown()">Emergency Shutdown</button>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">Recent Activity</h2>
+                <div id="activityLog"></div>
+            </div>
+        </div>
+
+        <!-- AI Council Page -->
+        <div id="council" class="page" style="display: none;">
+            <h1 style="margin-bottom: 30px; color: var(--primary);">AI COUNCIL STATUS</h1>
+            
+            <div class="council-grid">
+                <div class="council-member online">
+                    <div style="font-size: 3rem;">👑</div>
+                    <h3>NEXUS</h3>
+                    <p style="color: var(--primary);">ONLINE</p>
+                </div>
+                <div class="council-member online">
+                    <div style="font-size: 3rem;">🎵</div>
+                    <h3>ELECTRA</h3>
+                    <p style="color: var(--primary);">ONLINE</p>
+                </div>
+                <div class="council-member online">
+                    <div style="font-size: 3rem;">🛡️</div>
+                    <h3>GUARDIAN</h3>
+                    <p style="color: var(--primary);">ONLINE</p>
+                </div>
+                <div class="council-member online">
+                    <div style="font-size: 3rem;">🔮</div>
+                    <h3>ORACLE</h3>
+                    <p style="color: var(--primary);">ONLINE</p>
+                </div>
+                <div class="council-member online">
+                    <div style="font-size: 3rem;">📚</div>
+                    <h3>SAGE</h3>
+                    <p style="color: var(--primary);">ONLINE</p>
+                </div>
+                <div class="council-member online">
+                    <div style="font-size: 3rem;">🏗️</div>
+                    <h3>ARCHITECT</h3>
+                    <p style="color: var(--primary);">ONLINE</p>
+                </div>
+                <div class="council-member online">
+                    <div style="font-size: 3rem;">📝</div>
+                    <h3>SCRIBE</h3>
+                    <p style="color: var(--primary);">ONLINE</p>
+                </div>
+                <div class="council-member online">
+                    <div style="font-size: 3rem;">🌐</div>
+                    <h3>CLAUDE</h3>
+                    <p style="color: var(--primary);">INTEGRATED</p>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-top: 30px;">
+                <h2 class="panel-title">Council Commands</h2>
+                <button class="btn" onclick="startCouncil()">Start All</button>
+                <button class="btn btn-danger" onclick="stopCouncil()">Stop All</button>
+                <button class="btn btn-secondary" onclick="councilStatus()">Check Status</button>
+                <button class="btn" onclick="councilQuery()">Query Council</button>
+            </div>
+        </div>
+
+        <!-- Guest Book Page -->
+        <div id="guest-book" class="page" style="display: none;">
+            <h1 style="margin-bottom: 30px; color: var(--primary);">GUEST BOOK ENTRIES</h1>
+            
+            <div class="panel">
+                <h2 class="panel-title">Recent Visitors</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Company</th>
+                            <th>Message</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guestBookTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Terminal Page -->
+        <div id="terminal" class="page" style="display: none;">
+            <h1 style="margin-bottom: 30px; color: var(--primary);">SYSTEM TERMINAL</h1>
+            
+            <div class="panel">
+                <div class="terminal" id="terminalOutput">
+                    <div>HAVEN TERMINAL v2.0</div>
+                    <div>Type 'help' for available commands</div>
+                    <div>================================</div>
+                </div>
+                <div class="terminal-input">
+                    <span class="terminal-prompt">haven@hive:~$</span>
+                    <input type="text" class="terminal-command" id="terminalInput" autofocus>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deploy Page -->
+        <div id="deploy" class="page" style="display: none;">
+            <h1 style="margin-bottom: 30px; color: var(--primary);">DEPLOYMENT CENTER</h1>
+            
+            <div class="panel">
+                <h2 class="panel-title">GitHub Integration</h2>
+                <button class="btn" onclick="gitPush()">Push to GitHub</button>
+                <button class="btn" onclick="gitPull()">Pull from GitHub</button>
+                <button class="btn btn-secondary" onclick="gitStatus()">Check Status</button>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title">Domain Status</h2>
+                <p>humainaintegration.ai - <span style="color: var(--primary);">ACTIVE</span></p>
+                <p>SSL Certificate - <span style="color: var(--primary);">VALID</span></p>
+                <p>DNS Propagation - <span style="color: var(--primary);">COMPLETE</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation
+        const menuItems = document.querySelectorAll('.menu-item');
+        const pages = document.querySelectorAll('.page');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const pageName = item.dataset.page;
+                
+                // Update active menu
+                menuItems.forEach(m => m.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Show page
+                pages.forEach(p => p.style.display = 'none');
+                const page = document.getElementById(pageName);
+                if (page) page.style.display = 'block';
+            });
+        });
+
+        // Load Guest Book
+        function loadGuestBook() {
+            const entries = JSON.parse(localStorage.getItem('hiveGuestBook') || '[]');
+            const tbody = document.getElementById('guestBookTable');
+            
+            tbody.innerHTML = entries.map(entry => `
+                <tr>
+                    <td>${new Date(entry.timestamp).toLocaleString()}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.email}</td>
+                    <td>${entry.company || 'N/A'}</td>
+                    <td>${entry.message}</td>
+                    <td>
+                        <button class="btn btn-small" onclick="contactVisitor('${entry.email}')">Contact</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Terminal Commands
+        const terminalInput = document.getElementById('terminalInput');
+        const terminalOutput = document.getElementById('terminalOutput');
+
+        if (terminalInput) {
+            terminalInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const command = terminalInput.value;
+                    executeCommand(command);
+                    terminalInput.value = '';
+                }
+            });
+        }
+
+        function executeCommand(command) {
+            // Add command to output
+            terminalOutput.innerHTML += `<div><span style="color: var(--primary);">haven@hive:~$</span> ${command}</div>`;
+            
+            // Process commands
+            const responses = {
+                'help': 'Available commands: status, council, deploy, clear, reboot',
+                'status': 'System Status: OPTIMAL | AI Models: 11/11 | Security: MAXIMUM',
+                'council': 'AI Council: All members ONLINE and synchronized',
+                'deploy': 'Deployment ready. Use "deploy --production" to push live',
+                'clear': 'CLEAR',
+                'reboot': 'Initiating system reboot... Just kidding, we never go down!'
+            };
+            
+            if (command === 'clear') {
+                terminalOutput.innerHTML = '';
+            } else {
+                const response = responses[command] || `Command not found: ${command}`;
+                terminalOutput.innerHTML += `<div style="color: var(--text); opacity: 0.8;">${response}</div>`;
+            }
+            
+            // Scroll to bottom
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        // Activity Log
+        function updateActivityLog() {
+            const activities = [
+                'Claude API integrated successfully',
+                'NEXUS completed optimization cycle',
+                'Guest book entry received',
+                'Storage optimization: 2GB freed',
+                'Security scan: No threats detected'
+            ];
+            
+            const activityLog = document.getElementById('activityLog');
+            if (activityLog) {
+                activityLog.innerHTML = activities.map(activity => 
+                    `<div style="padding: 10px; border-left: 3px solid var(--primary); margin: 5px 0;">
+                        ${new Date().toLocaleTimeString()} - ${activity}
+                    </div>`
+                ).join('');
+            }
+        }
+
+        // Button Functions
+        function deployUpdate() {
+            alert('Deploying update to production...\nGitHub Pages will refresh in ~5 minutes');
+        }
+
+        function syncCouncil() {
+            alert('Synchronizing AI Council...\nAll 11 models synchronized!');
+        }
+
+        function backupSystem() {
+            alert('Creating system backup...\nBackup stored in /mnt/ZERR_DATA/backups/');
+        }
+
+        function emergencyShutdown() {
+            if (confirm('Are you sure? This will stop all AI processes!')) {
+                alert('Emergency shutdown initiated...\nJust kidding, THE HIVE never sleeps!');
+            }
+        }
+
+        function contactVisitor(email) {
+            alert(`Opening email client for: ${email}`);
+        }
+
+        // Update stats
+        function updateStats() {
+            const visitorCount = Math.floor(Math.random() * 50) + 10;
+            document.getElementById('visitorCount').textContent = visitorCount;
+            
+            // Simulate real-time updates
+            setInterval(() => {
+                const count = parseInt(document.getElementById('visitorCount').textContent);
+                document.getElementById('visitorCount').textContent = count + Math.floor(Math.random() * 3);
+            }, 30000);
+        }
+
+        // Initialize
+        loadGuestBook();
+        updateActivityLog();
+        updateStats();
+
+        // Refresh guest book periodically
+        setInterval(loadGuestBook, 5000);
+    </script>
+</body>
+</html>

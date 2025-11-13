@@ -225,9 +225,8 @@
             // For now, we'll use a service like Formspree or create a simple backend
             // This is where the form actually DOES something
             try {
-                // Option 1: Use Formspree (free tier available)
-                // Replace YOUR_FORM_ID with actual Formspree ID
-                const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+                // Use local contact handler
+                const response = await fetch('http://localhost:8001/contact', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

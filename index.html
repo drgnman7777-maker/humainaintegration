@@ -3,831 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUMAINA | THE HIVE AWAKENS</title>
-    <meta name="description" content="Where Human Intelligence meets AI Coordination. The future isn't coming - it's already deployed.">
-    
+    <title>HumAIna Integration - Haven AI Infrastructure</title>
+    <meta name="description" content="Enterprise AI infrastructure and orchestration. Local-first, secure, and actually working.">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
         }
-
-        :root {
-            --primary: #00ff41;
-            --secondary: #ffd700;
-            --danger: #ff0040;
-            --bg: #0a0a0a;
-            --text: #ffffff;
-        }
-
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            transition: all 0.1s ease;
-            z-index: 10000;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            background: rgba(0, 255, 65, 0.1);
-            border-radius: 50%;
-            position: fixed;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            transition: all 0.3s ease;
-            z-index: 9999;
-        }
-
+        
         body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Courier New', monospace;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Matrix Rain Background */
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            opacity: 0.1;
-            z-index: 0;
-        }
-
-        /* Neural Network Animation */
-        .neural-network {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        /* Glitch Text Effect */
-        .glitch {
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: bold;
-            text-transform: uppercase;
-            position: relative;
-            text-shadow: 
-                0.05em 0 0 rgba(255, 0, 0, .75),
-                -0.025em -.05em 0 rgba(0, 255, 0, .75),
-                0.025em 0.05em 0 rgba(0, 0, 255, .75);
-            animation: glitch 1s infinite;
-        }
-
-        @keyframes glitch {
-            0% {
-                text-shadow: 
-                    0.05em 0 0 rgba(255, 0, 0, .75),
-                    -0.05em -.025em 0 rgba(0, 255, 0, .75),
-                    0.025em 0.05em 0 rgba(0, 0, 255, .75);
-            }
-            14% {
-                text-shadow: 
-                    0.05em 0 0 rgba(255, 0, 0, .75),
-                    -0.05em -.025em 0 rgba(0, 255, 0, .75),
-                    0.025em 0.05em 0 rgba(0, 0, 255, .75);
-            }
-            15% {
-                text-shadow: 
-                    -0.05em -.025em 0 rgba(255, 0, 0, .75),
-                    0.025em 0.025em 0 rgba(0, 255, 0, .75),
-                    -0.05em -.05em 0 rgba(0, 0, 255, .75);
-            }
-            49% {
-                text-shadow: 
-                    -0.05em -.025em 0 rgba(255, 0, 0, .75),
-                    0.025em 0.025em 0 rgba(0, 255, 0, .75),
-                    -0.05em -.05em 0 rgba(0, 0, 255, .75);
-            }
-            50% {
-                text-shadow: 
-                    0.025em 0.05em 0 rgba(255, 0, 0, .75),
-                    0.05em 0 0 rgba(0, 255, 0, .75),
-                    0 -.05em 0 rgba(0, 0, 255, .75);
-            }
-            99% {
-                text-shadow: 
-                    0.025em 0.05em 0 rgba(255, 0, 0, .75),
-                    0.05em 0 0 rgba(0, 255, 0, .75),
-                    0 -.05em 0 rgba(0, 0, 255, .75);
-            }
-            100% {
-                text-shadow: 
-                    -0.025em 0 0 rgba(255, 0, 0, .75),
-                    -0.025em -0.025em 0 rgba(0, 255, 0, .75),
-                    -0.025em -0.05em 0 rgba(0, 0, 255, .75);
-            }
-        }
-
-        /* Typing Terminal */
-        .terminal {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--primary);
-            border-radius: 10px;
-            padding: 30px;
-            margin: 40px 0;
-            max-width: 800px;
-            width: 100%;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .terminal::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 30px;
-            background: linear-gradient(to right, var(--danger), var(--secondary), var(--primary));
-            opacity: 0.8;
-        }
-
-        .terminal-header {
-            position: absolute;
-            top: 8px;
-            left: 15px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .terminal-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--danger);
-        }
-
-        .terminal-dot:nth-child(2) {
-            background: var(--secondary);
-        }
-
-        .terminal-dot:nth-child(3) {
-            background: var(--primary);
-        }
-
-        .terminal-content {
-            margin-top: 20px;
-            font-size: 1.1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
             line-height: 1.6;
         }
-
-        .terminal-line {
-            margin: 10px 0;
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
+        
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 2rem 0;
+            border-bottom: 2px solid #00ff41;
         }
-
-        .terminal-line:nth-child(1) { animation-delay: 0.5s; }
-        .terminal-line:nth-child(2) { animation-delay: 1s; }
-        .terminal-line:nth-child(3) { animation-delay: 1.5s; }
-        .terminal-line:nth-child(4) { animation-delay: 2s; }
-        .terminal-line:nth-child(5) { animation-delay: 2.5s; }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .prompt { color: var(--primary); }
-        .command { color: var(--secondary); }
-        .output { color: var(--text); opacity: 0.8; }
-
-        /* Interactive Nodes */
-        .ai-nodes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 30px;
-            margin: 60px 0;
-            width: 100%;
+        
+        .container {
             max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
-
-        .ai-node {
-            background: rgba(0, 255, 65, 0.1);
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #00ff41;
+            margin-bottom: 0.5rem;
         }
-
-        .ai-node:hover {
-            transform: scale(1.1) rotate(360deg);
-            background: rgba(0, 255, 65, 0.2);
-            box-shadow: 0 0 50px var(--primary);
-        }
-
-        .ai-node::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-
-        .ai-node:hover::before {
-            opacity: 0.3;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(0.8); }
-            50% { transform: scale(1.2); }
-        }
-
-        .node-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .node-name {
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Access Portal */
-        .access-portal {
-            margin: 60px 0;
-            text-align: center;
-        }
-
-        .portal-button {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 20px 60px;
+        
+        .tagline {
             font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            color: #888;
         }
-
-        .portal-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: var(--primary);
-            transform: translate(-50%, -50%);
-            transition: all 0.5s ease;
-            z-index: -1;
+        
+        main {
+            padding: 4rem 0;
         }
-
-        .portal-button:hover {
-            color: var(--bg);
+        
+        section {
+            margin-bottom: 4rem;
         }
-
-        .portal-button:hover::before {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Guest Book Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: var(--bg);
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 40px;
-            max-width: 600px;
-            width: 90%;
-            position: relative;
-        }
-
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        
+        h2 {
             font-size: 2rem;
-            color: var(--danger);
-            cursor: pointer;
+            color: #00ff41;
+            margin-bottom: 1rem;
         }
-
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+        }
+        
+        .feature h3 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+        }
+        
         .form-group {
-            margin: 20px 0;
+            margin-bottom: 1.5rem;
         }
-
+        
         label {
             display: block;
-            margin-bottom: 10px;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            color: #00ff41;
         }
-
+        
         input, textarea {
             width: 100%;
-            padding: 15px;
-            background: rgba(0, 255, 65, 0.1);
-            border: 1px solid var(--primary);
-            color: var(--text);
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.5);
+            border-radius: 4px;
+            color: white;
+            font-family: inherit;
         }
-
-        input:focus, textarea:focus {
-            outline: none;
-            box-shadow: 0 0 20px var(--primary);
-        }
-
-        .submit-btn {
-            background: var(--primary);
-            color: var(--bg);
+        
+        button {
+            background: #00ff41;
+            color: #0a0a0a;
             border: none;
-            padding: 15px 40px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.3s;
         }
-
-        .submit-btn:hover {
-            background: var(--secondary);
-            transform: scale(1.05);
+        
+        button:hover {
+            background: #00cc33;
         }
-
-        /* Dev Portal (Hidden) */
-        .dev-trigger {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            opacity: 0.1;
-            cursor: pointer;
+        
+        .status {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid #00ff41;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            display: none;
         }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .glitch {
-                font-size: 3rem;
-            }
-            
-            .ai-nodes {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .ai-node {
-                width: 120px;
-                height: 120px;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        }
-
-        .loading-text {
-            font-size: 2rem;
-            color: var(--primary);
-            animation: pulse 1s infinite;
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid #333;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
-    <!-- Matrix Background -->
-    <canvas class="matrix-bg" id="matrix"></canvas>
-
-    <!-- Neural Network -->
-    <canvas class="neural-network" id="neural"></canvas>
-
-    <!-- Loading Screen -->
-    <div class="loading" id="loading">
-        <div class="loading-text">INITIALIZING THE HIVE...</div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <h1 class="glitch">HUMAINA</h1>
-        
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot"></div>
-                <div class="terminal-dot"></div>
-                <div class="terminal-dot"></div>
-            </div>
-            <div class="terminal-content">
-                <div class="terminal-line">
-                    <span class="prompt">$</span> <span class="command">./initialize_hive.sh</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="output">🧠 AI Council: ONLINE</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="output">🔗 Neural Networks: 11 ACTIVE</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="output">🛡️ Security: MAXIMUM</span>
-                </div>
-                <div class="terminal-line">
-                    <span class="output">✨ Status: THE FUTURE IS NOW</span>
-                </div>
-            </div>
+    <header>
+        <div class="container">
+            <h1>HumAIna Integration</h1>
+            <p class="tagline">Haven AI Infrastructure - Actually Working, Not Just Promises</p>
         </div>
-
-        <div class="ai-nodes">
-            <div class="ai-node" data-node="nexus">
-                <div class="node-icon">👑</div>
-                <div class="node-name">NEXUS</div>
-            </div>
-            <div class="ai-node" data-node="electra">
-                <div class="node-icon">🎵</div>
-                <div class="node-name">ELECTRA</div>
-            </div>
-            <div class="ai-node" data-node="guardian">
-                <div class="node-icon">🛡️</div>
-                <div class="node-name">GUARDIAN</div>
-            </div>
-            <div class="ai-node" data-node="oracle">
-                <div class="node-icon">🔮</div>
-                <div class="node-name">ORACLE</div>
-            </div>
-            <div class="ai-node" data-node="sage">
-                <div class="node-icon">📚</div>
-                <div class="node-name">SAGE</div>
-            </div>
-            <div class="ai-node" data-node="architect">
-                <div class="node-icon">🏗️</div>
-                <div class="node-name">ARCHITECT</div>
-            </div>
-            <div class="ai-node" data-node="scribe">
-                <div class="node-icon">📝</div>
-                <div class="node-name">SCRIBE</div>
-            </div>
-            <div class="ai-node" data-node="claude">
-                <div class="node-icon">🌐</div>
-                <div class="node-name">CLAUDE</div>
-            </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <section>
+                <h2>What We Actually Have Running</h2>
+                <div class="features">
+                    <div class="feature">
+                        <h3>85+ LLM Ecosystem</h3>
+                        <p>Distributed AI processing with Ollama, Claude integration, and local model hosting. Running 24/7 on Haven infrastructure.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>7TB Storage Infrastructure</h3>
+                        <p>Multi-drive redundant storage system with automated backups and high-speed access for AI workloads.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Voice Synthesis Suite</h3>
+                        <p>7 distinct AI personalities with real-time voice generation and speech recognition capabilities.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Security Monitoring</h3>
+                        <p>Enterprise-grade intrusion detection, network analysis, and automated threat response systems.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2>Services</h2>
+                <ul style="font-size: 1.1rem; line-height: 2;">
+                    <li>AI Infrastructure Consulting</li>
+                    <li>Local-First AI Deployment</li>
+                    <li>Custom Voice Assistant Development</li>
+                    <li>Distributed AI Orchestration</li>
+                    <li>Security Hardening for AI Systems</li>
+                </ul>
+            </section>
+            
+            <section>
+                <h2>Contact</h2>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit">Send Message</button>
+                    </form>
+                    <div id="status" class="status"></div>
+                </div>
+            </section>
         </div>
-
-        <div class="access-portal">
-            <button class="portal-button" id="accessBtn">REQUEST ACCESS</button>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 HumAIna Integration - Haven Genesis Collective</p>
         </div>
-    </div>
-
-    <!-- Guest Book Modal -->
-    <div class="modal" id="guestModal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 style="color: var(--primary); margin-bottom: 30px;">INITIATE CONTACT</h2>
-            <form id="guestForm">
-                <div class="form-group">
-                    <label>IDENTIFICATION</label>
-                    <input type="text" name="name" required placeholder="Your Name">
-                </div>
-                <div class="form-group">
-                    <label>COMMUNICATION VECTOR</label>
-                    <input type="email" name="email" required placeholder="your@email.com">
-                </div>
-                <div class="form-group">
-                    <label>ORGANIZATION UNIT</label>
-                    <input type="text" name="company" placeholder="Company/Organization">
-                </div>
-                <div class="form-group">
-                    <label>TRANSMISSION</label>
-                    <textarea name="message" rows="5" required placeholder="State your interest in THE HIVE..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn">TRANSMIT</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Dev Portal Trigger (Hidden) -->
-    <div class="dev-trigger" id="devTrigger"></div>
-
+    </footer>
+    
     <script>
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const follower = document.querySelector('.cursor-follower');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                follower.style.left = e.clientX + 'px';
-                follower.style.top = e.clientY + 'px';
-            }, 100);
-        });
-
-        // Matrix Rain Effect
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
-        const matrixArray = matrix.split("");
-
-        const fontSize = 10;
-        const columns = canvas.width / fontSize;
-
-        const drops = [];
-        for(let x = 0; x < columns; x++) {
-            drops[x] = 1;
-        }
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#0F0';
-            ctx.font = fontSize + 'px monospace';
-            
-            for(let i = 0; i < drops.length; i++) {
-                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                
-                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-
-        setInterval(drawMatrix, 35);
-
-        // Neural Network Animation
-        const neuralCanvas = document.getElementById('neural');
-        const neuralCtx = neuralCanvas.getContext('2d');
-
-        neuralCanvas.width = window.innerWidth;
-        neuralCanvas.height = window.innerHeight;
-
-        const nodes = [];
-        const nodeCount = 50;
-
-        class Node {
-            constructor() {
-                this.x = Math.random() * neuralCanvas.width;
-                this.y = Math.random() * neuralCanvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2 + 1;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > neuralCanvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > neuralCanvas.height) this.vy *= -1;
-            }
-
-            draw() {
-                neuralCtx.beginPath();
-                neuralCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                neuralCtx.fillStyle = 'rgba(0, 255, 65, 0.8)';
-                neuralCtx.fill();
-            }
-        }
-
-        for (let i = 0; i < nodeCount; i++) {
-            nodes.push(new Node());
-        }
-
-        function drawNeural() {
-            neuralCtx.clearRect(0, 0, neuralCanvas.width, neuralCanvas.height);
-
-            // Draw connections
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const dx = nodes[i].x - nodes[j].x;
-                    const dy = nodes[i].y - nodes[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 150) {
-                        neuralCtx.beginPath();
-                        neuralCtx.moveTo(nodes[i].x, nodes[i].y);
-                        neuralCtx.lineTo(nodes[j].x, nodes[j].y);
-                        neuralCtx.strokeStyle = `rgba(0, 255, 65, ${1 - distance / 150})`;
-                        neuralCtx.stroke();
-                    }
-                }
-            }
-
-            // Update and draw nodes
-            nodes.forEach(node => {
-                node.update();
-                node.draw();
-            });
-
-            requestAnimationFrame(drawNeural);
-        }
-
-        drawNeural();
-
-        // AI Node Interactions
-        const aiNodes = document.querySelectorAll('.ai-node');
-        const nodeDescriptions = {
-            nexus: "Central Command - Orchestrating THE HIVE",
-            electra: "Voice Synthesis - Neural Audio Orchestra",
-            guardian: "Security Protocol - Protecting Our Digital Sanctuary",
-            oracle: "Predictive Analytics - Seeing What Others Cannot",
-            sage: "Knowledge Repository - Wisdom of The Collective",
-            architect: "System Builder - Designing Tomorrow",
-            scribe: "Documentation Master - Recording Our Journey",
-            claude: "External Intelligence - Bridging Worlds"
-        };
-
-        aiNodes.forEach(node => {
-            node.addEventListener('mouseenter', function() {
-                const nodeName = this.dataset.node;
-                const description = nodeDescriptions[nodeName];
-                
-                // Create tooltip
-                const tooltip = document.createElement('div');
-                tooltip.className = 'tooltip';
-                tooltip.style.cssText = `
-                    position: absolute;
-                    bottom: -40px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: var(--bg);
-                    border: 1px solid var(--primary);
-                    padding: 10px;
-                    white-space: nowrap;
-                    font-size: 0.9rem;
-                    z-index: 100;
-                `;
-                tooltip.textContent = description;
-                this.appendChild(tooltip);
-            });
-
-            node.addEventListener('mouseleave', function() {
-                const tooltip = this.querySelector('.tooltip');
-                if (tooltip) tooltip.remove();
-            });
-        });
-
-        // Modal Functionality
-        const modal = document.getElementById('guestModal');
-        const accessBtn = document.getElementById('accessBtn');
-        const closeBtn = document.querySelector('.close');
-
-        accessBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        // Form Submission
-        const guestForm = document.getElementById('guestForm');
-        guestForm.addEventListener('submit', async (e) => {
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const formData = new FormData(guestForm);
-            const data = Object.fromEntries(formData);
+            const status = document.getElementById('status');
+            status.style.display = 'block';
+            status.textContent = 'Sending message...';
             
-            // In production, this would send to your backend
-            console.log('Guest Book Entry:', data);
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
             
-            // Store locally for now
-            const entries = JSON.parse(localStorage.getItem('hiveGuestBook') || '[]');
-            entries.push({
-                ...data,
-                timestamp: new Date().toISOString(),
-                ip: 'CLASSIFIED'
-            });
-            localStorage.setItem('hiveGuestBook', JSON.stringify(entries));
-            
-            // Show success
-            guestForm.innerHTML = `
-                <div style="text-align: center; padding: 40px;">
-                    <h2 style="color: var(--primary); margin-bottom: 20px;">TRANSMISSION RECEIVED</h2>
-                    <p style="font-size: 1.2rem; opacity: 0.8;">THE HIVE ACKNOWLEDGES YOUR INTEREST</p>
-                    <p style="margin-top: 20px;">We will initiate contact soon.</p>
-                </div>
-            `;
-            
-            setTimeout(() => {
-                modal.style.display = 'none';
-                guestForm.innerHTML = originalFormContent;
-                guestForm.reset();
-            }, 3000);
-        });
-
-        const originalFormContent = guestForm.innerHTML;
-
-        // Dev Portal Access (Triple-click bottom right)
-        let devClicks = 0;
-        const devTrigger = document.getElementById('devTrigger');
-
-        devTrigger.addEventListener('click', () => {
-            devClicks++;
-            if (devClicks === 3) {
-                const password = prompt('AUTHENTICATION REQUIRED:');
-                if (password === 'havenhive2025') {
-                    window.location.href = '/dev-portal.html';
+            // For now, we'll use a service like Formspree or create a simple backend
+            // This is where the form actually DOES something
+            try {
+                // Use local contact handler
+                const response = await fetch('http://localhost:8001/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    status.textContent = 'Message sent successfully!';
+                    this.reset();
                 } else {
-                    alert('ACCESS DENIED');
+                    throw new Error('Failed to send');
                 }
-                devClicks = 0;
+            } catch (error) {
+                // Fallback: Show the data so you can manually handle it
+                status.innerHTML = `
+                    <strong>Form submission received:</strong><br>
+                    Name: ${formData.name}<br>
+                    Email: ${formData.email}<br>
+                    Message: ${formData.message}<br>
+                    <em>(Backend not configured - set up Formspree or email service)</em>
+                `;
             }
-            
-            setTimeout(() => {
-                devClicks = 0;
-            }, 1000);
-        });
-
-        // Remove loading screen
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading').style.display = 'none';
-            }, 2000);
-        });
-
-        // Window resize handlers
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            neuralCanvas.width = window.innerWidth;
-            neuralCanvas.height = window.innerHeight;
         });
     </script>
 </body>
